@@ -1615,10 +1615,10 @@ class Api:
         else:
             redprint("not attached")
     def ExecuteText():
-        syntax = checksyntax(Api.Get())
-        if isinstance(syntax,str):
-            return syntax
         if Attached:
+       #     syntax = checksyntax(Api.Get())
+            #if isinstance(syntax,str):
+            #    return syntax
             e = threading.Thread(target=EXE,args=(Api.Get(),localplayer),daemon=True)
             e.start()
         else:
