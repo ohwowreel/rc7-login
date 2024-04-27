@@ -1571,9 +1571,9 @@ class Api:
         return CodeBox.get(1.0,tk.END)
     def Clear():
         CodeBox.delete(1.0, tk.END)
-        Output.config(state="normal")
-        Output.delete(1.0,tk.END)
-        Output.config(state="disabled")
+        #Output.config(state="normal")
+     #   Output.delete(1.0,tk.END)
+     #   Output.config(state="disabled")
     def Open():
         file = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("Lua files", "*.lua"),("All files", "*.*")])
         if file:
