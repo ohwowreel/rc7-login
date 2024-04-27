@@ -1593,7 +1593,7 @@ class Api:
             try:
                 ok = open(file, "r", encoding="utf8")
                 result = ok.read()
-                Api.Clear(None)
+                Api.Clear()
                 CodeBox.insert(tk.END, result)
                 ok.close()
             except Exception as e:
