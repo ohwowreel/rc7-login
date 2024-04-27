@@ -1526,11 +1526,11 @@ def ask(s,b):
         return True
     return False
 def errorbox(b):
-    win32api.MessageBox(0, " ", b, 0x10)
+    win32api.MessageBox(0, b, " ", 0x10)
 def warnbox(b):
-    win32api.MessageBox(0, " ", b, 0x30)
+    win32api.MessageBox(0,b," ",0x30)
 def msgbox(b):
-    win32api.MessageBox(0, " ", b, 0x40)
+    win32api.MessageBox(0, b, " ", 0x40)
 Output = None
 def setoutput(b):
     Output.config(state="normal")
