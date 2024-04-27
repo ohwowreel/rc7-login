@@ -911,7 +911,7 @@ def getPlayers2() -> Instance:
                         ptr = readQword(ptr + 8)
                         if readString(ptr) == "Players":
                             instnc = Instance((result - (8 * j)) - 0x18)
-                            if instnc.Parent.Name == "Game":
+                            if instnc and instnc.Parent and instnc.Parent.Name == "Game":
                                 players = instnc
                                 valid = True
                                 break
@@ -962,7 +962,7 @@ def getPlayers() -> Instance:
                         ptr = readQword(ptr + 8)
                         if readString(ptr) == "Players":
                             instnc = Instance((result - (8 * j)) - 0x18)
-                            if instnc.Parent.Name == "Game":
+                            if instnc and instnc.Parent and instnc.Parent.Name == "Game":
                                 players = instnc
                                 valid = True
                                 break
@@ -1530,7 +1530,7 @@ def errorbox(b):
 def warnbox(b):
     win32api.MessageBox(0,b," ",0x30)
 def msgbox(b):
-    win32api.MessageBox(0, b, " ", 0)
+    win32api.MessageBox(0, b, " ", 0x40)
 Output = None
 def setoutput(b):
     Output.config(state="normal")
