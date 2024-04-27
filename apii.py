@@ -1,5 +1,5 @@
 from __future__ import annotations
-import os,pymem,ctypes,httpx,re,pygetwindow as gw,time,threading,lupa,pyperclip,requests,pyautogui,json,shutil,glob,string,random,winsound
+import os,pymem,ctypes,httpx,re,pygetwindow as gw,time,win32api,threading,lupa,pyperclip,requests,pyautogui,json,shutil,glob,string,random,winsound
 #import pymem,ctypes,time,re,httpx,os,pygetwindow as gw
 from datetime import datetime
 import tkinter.scrolledtext as scrolledtext
@@ -1525,14 +1525,12 @@ def ask(s,b):
     if result == "yes":
         return True
     return False
-def msgbox(b):
-    messagebox.showinfo(" ", b)
 def errorbox(b):
-    messagebox.showerror(" ", b)
+    win32api.MessageBox(0, " ", b, 0x10)
 def warnbox(b):
-    messagebox.showwarning(" ", b)
-def info(b):
-    messagebox.showinfo(" ", b, icon=None)
+    win32api.MessageBox(0, " ", b, 0x30)
+def msgbox(b):
+    win32api.MessageBox(0, " ", b, 0x40)
 Output = None
 def setoutput(b):
     Output.config(state="normal")
@@ -1590,10 +1588,10 @@ class Api:
     def CloseRoblox():
         if ConfigureAll() == "RobloxPlayerBeta":
             os.system("""taskkill /im "RobloxPlayerBeta.exe" /F >NUL 2>&1""")
-            info("Process terminated.")
+            msgbox("Process terminated.")
         if ConfigureAll() == "Windows10Universal":
             os.system("""taskkill /im "Windows10Universal.exe" /F >NUL 2>&1""")
-            info("Process terminated.")
+            msgbox("Process terminated.")
     def Execute(code):
         syntax = checksyntax(code)
         if isinstance(syntax,str):
