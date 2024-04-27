@@ -1530,7 +1530,7 @@ def errorbox(b):
 def warnbox(b):
     win32api.MessageBox(0,b," ",0x30)
 def msgbox(b):
-    win32api.MessageBox(0, b, " ", 0x40)
+    win32api.MessageBox(0, b, " ", 0)
 Output = None
 def setoutput(b):
     Output.config(state="normal")
