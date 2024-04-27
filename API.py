@@ -1617,8 +1617,7 @@ class Api:
     def ExecuteText():
         syntax = checksyntax(Api.Get())
         if isinstance(syntax,str):
-            setoutput(syntax)
-            return
+            return syntax
         if Attached:
             e = threading.Thread(target=EXE,args=(Api.Get(),localplayer),daemon=True)
             e.start()
