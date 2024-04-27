@@ -1572,11 +1572,13 @@ class Api:
                 ok.close()
             except Exception as e:
                 print(e)
-    def Save():
-        savetoautorun = ask("Save script","Save to Autorun directory?")
+    def Save(autorunb=False,autorunpath=""):
+        savetoautorun = None
+        if autorunb == True:
+            savetoautorun = ask("Save script","Save to Autorun directory?")
         file = None
         if savetoautorun:
-            file = filedialog.asksaveasfilename(initialdir=AutoRunPath,filetypes=[("Text files", "*.txt"), ("Lua files", "*.lua"),("All files", "*.*")])
+            file = filedialog.asksaveasfilename(initialdir=autorunpath,filetypes=[("Text files", "*.txt"), ("Lua files", "*.lua"),("All files", "*.*")])
         else:
             file = filedialog.asksaveasfilename(filetypes=[("Text files", "*.txt"), ("Lua files", "*.lua"),("All files", "*.*")])
         if file:
