@@ -1026,15 +1026,7 @@ def checksyntax(code):
     except Exception as e:
         print(e)
         pass
-notebook = None
-def getcodebox():
-    current_tab_index = notebook.index("current")
-    current_tab = notebook.winfo_children()[current_tab_index]
-    for widget in current_tab.winfo_children():
-        if isinstance(widget, tk.Frame):
-            for widget in widget.winfo_children():
-                if isinstance(widget,scrolledtext.ScrolledText):
-                    return widget
+CodeBox = None
 green = Fore.GREEN
 red = Fore.RED
 cyan = Fore.CYAN
@@ -1563,7 +1555,6 @@ class Api:
         e = threading.Thread(target=Attach,daemon=True)
         e.start()
     def WordWrap():
-        CodeBox = getcodebox()
         current_wrap = CodeBox.cget("wrap")
         new_wrap = ""
         if current_wrap == "none":
@@ -1572,22 +1563,18 @@ class Api:
             new_wrap = "none"
         CodeBox.config(wrap=new_wrap)
     def IsWeb():
-        CodeBox = getcodebox()
         ok = ConfigureAll()
         if ok == "notfound":
             return "notfound"
         return ok == "RobloxPlayerBeta"
     def Get():
-        CodeBox = getcodebox()
         return CodeBox.get(1.0,tk.END)
     def Clear():
-        CodeBox = getcodebox()
         CodeBox.delete(1.0, tk.END)
         Output.config(state="normal")
         Output.delete(1.0,tk.END)
         Output.config(state="disabled")
     def Open():
-        CodeBox = getcodebox()
         file = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("Lua files", "*.lua"),("All files", "*.*")])
         if file:
             try:
