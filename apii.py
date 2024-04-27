@@ -1480,10 +1480,8 @@ def Attach():
    # threading.Thread(target=AutoRun,daemon=True).start()
     ok = ConfigureAll()
     if ok == "notfound":
-        redprint("Roblox not found")
         Attached = False
-        return False
-    coolprint("Attaching, PID is :",synapse.memory.process_id)
+        return "roblox not found"
     InjectScript = 0
     try:
         if Suspend == True:
@@ -1491,25 +1489,19 @@ def Attach():
         else:
             game = getPlayers().Parent
     except Exception as e:
-        redprint("Failed to find Game :",str(e))
         Attached = False
-        return
+        return f"error getting datamodel {str(e)}"
     if game == 0:
-        redprint("Failed to find Game")
         Attached = False
-        return
-    coolprint(f"Got {game.Name} :",hex(game.addr))
+        return "failed to find game"
     try:
         InjectScript = returnInjectScript()
     except Exception as e:
-        redprint("Failed to find Inject LocalScript :",str(e))
         Attached = False
-        return
+        return f"error getting inject script {str(e)}"
     if InjectScript == 0:
-        print("Inject LocalScript not found")
         Attached = False
-        return
-    coolprint("Almost done")
+        return "inject script not found"
     players = game.FindFirstChildOfClass("Players")
     localplayer = players.GetChildren()[0]
     character = Instance(synapse.memory.read_longlong(localplayer.addr+offsets["character"]))
@@ -1520,14 +1512,13 @@ def Attach():
             localscript = v
             break
     if localscript == None:
-        redprint("Character has no LocalScript to attach in")
         Attached = False
+        return "no localscript to attach in"
     b = synapse.rb(InjectScript.addr + 0x100, 0x150)
     synapse.wb(localscript.addr + 0x100, b, len(b))
     localscript.setParent(localplayer.FindFirstChildOfClass("PlayerScripts"))
-    coolprint("Attached :",hex(localscript.addr))
     Attached = True
-    return
+    return True
 def ask(s,b):
     winsound.PlaySound("SystemQuestion", winsound.SND_ALIAS | winsound.SND_ASYNC)
     result = messagebox.askquestion(s,b)
@@ -1535,13 +1526,13 @@ def ask(s,b):
         return True
     return False
 def msgbox(b):
-    messagebox.showinfo("RC7", b)
+    messagebox.showinfo(" ", b)
 def errorbox(b):
-    messagebox.showerror("RC7", b)
+    messagebox.showerror(" ", b)
 def warnbox(b):
-    messagebox.showwarning("RC7", b)
+    messagebox.showwarning(" ", b)
 def info(b):
-    messagebox.showinfo("RC7", b, icon=None)
+    messagebox.showinfo(" ", b, icon=None)
 Output = None
 def setoutput(b):
     Output.config(state="normal")
@@ -1551,8 +1542,7 @@ def setoutput(b):
     Output.config(state="disabled")
 class Api:
     def Attach():
-        e = threading.Thread(target=Attach,daemon=True)
-        e.start()
+        return Attach()
     def WordWrap():
         current_wrap = CodeBox.cget("wrap")
         new_wrap = ""
@@ -1612,7 +1602,7 @@ class Api:
         if Attached:
             EXE(code,localplayer)
         else:
-            redprint("not attached")
+            return "not attached"
     def ExecuteText():
         if Attached:
        #     syntax = checksyntax(Api.Get())
@@ -1621,4 +1611,4 @@ class Api:
             e = threading.Thread(target=EXE,args=(Api.Get(),localplayer),daemon=True)
             e.start()
         else:
-            redprint("not attached")
+            return "not attached"
