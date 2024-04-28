@@ -1076,7 +1076,7 @@ def readfile(pah):
     path = os.path.join(workspace, pah)
 
     if os.path.exists(path):
-        file = open(path, "r", encoding="utf8")
+        file = open(path, "r", encoding="utf8",errors="ignore")
         result = file.read()
         return result
     else:
@@ -1085,7 +1085,7 @@ def readfile2(pah):
     path = os.path.join(cwd, pah)
 
     if os.path.exists(path):
-        file = open(path, "r", encoding="utf8")
+        file = open(path, "r", encoding="utf8",errors="ignore")
         result = file.read()
         return result
     else:
@@ -1093,7 +1093,7 @@ def readfile2(pah):
 def writefile(pah,data):
     path = os.path.join(workspace, pah)
 
-    file = open(path, "w", encoding="utf8")
+    file = open(path, "w", encoding="utf8",errors="ignore")
     file.write(data)
     file.close()
 def onlyfileslist(directory):
@@ -1110,7 +1110,7 @@ def listfilescode(pah=None):
     e = onlyfileslist(path)
     contents = []
     for file in e:
-        with open(workspace+"/"+file,"r",encoding="utf-8") as fl:
+        with open(workspace+"/"+file,"r",encoding="utf-8",errors="ignore") as fl:
             content = fl.read()
             contents.append(content)
             fl.close()
@@ -1128,7 +1128,7 @@ def listfiles2code(pah=None):
     e = onlyfileslist(path)
     contents = []
     for file in e:
-        with open(autorundir+"/"+file,"r",encoding="utf-8") as fl:
+        with open(autorundir+"/"+file,"r",encoding="utf-8",errors="ignore") as fl:
             content = fl.read()
             contents.append(content)
             fl.close()
@@ -1143,7 +1143,7 @@ def appendfile(payload):
     path = os.path.join(cwd, payload["request"]["path"])
     data = payload["request"]["data"]
 
-    file = open(path, "a", encoding="utf8")
+    file = open(path, "a", encoding="utf8",errors="ignore")
     file.write(data)
     file.close()
 
@@ -1190,7 +1190,7 @@ def listfolderscontent(path=None):
             for item in os.listdir(folder_path):
                 item_path = os.path.join(folder_path, item)
                 if os.path.isfile(item_path):  # Check if it's a file
-                    with open(item_path, 'r',encoding="utf-8") as file:
+                    with open(item_path, 'r',encoding="utf-8",errors="ignore") as file:
                         content = file.read()
                         folder_contents.append(content)
     return folder_contents
@@ -1280,7 +1280,7 @@ def findlog(ff):
     if isweb():
         LogsFolder = LogsPath[0]
     LLFP = max(glob.glob(LogsFolder + "/*"), key=os.path.getmtime)
-    file_content = open(LLFP, "r",encoding="utf8").read()
+    file_content = open(LLFP, "r",encoding="utf8",errors="ignore").read()
     matches = re.findall(rf'{ff}\s+(\S+)', file_content)
     if matches:
         last_match = matches[-1]
@@ -1343,7 +1343,7 @@ def startChecks():
         FileName = findlog("writefile_filenameis")
         cancelwritefile = findlog("cancelwritefile")
         if FileName != "NONE" and FileName != "" and cancelwritefile != lastcancelwritefile:
-            with open(workspace+f"/{FileName}","w",encoding="utf-8"):
+            with open(workspace+f"/{FileName}","w",encoding="utf-8",errors="ignore"):
                 time.sleep(0.2) # maybe it does not create it fast on roblox
                 file = files.FindFirstChild(FileName)
                 writefile(FileName,file.FileContent.Value)
@@ -1565,7 +1565,7 @@ class Api:
         file = filedialog.askopenfilename(filetypes=[("Text files", "*.txt"), ("Lua files", "*.lua"),("All files", "*.*")])
         if file:
             try:
-                ok = open(file, "r", encoding="utf8")
+                ok = open(file, "r", encoding="utf8",errors="ignore")
                 result = ok.read()
                 Api.Clear()
                 CodeBox.insert(tk.END, result)
@@ -1583,7 +1583,7 @@ class Api:
             file = filedialog.asksaveasfilename(filetypes=[("Text files", "*.txt"), ("Lua files", "*.lua"),("All files", "*.*")])
         if file:
             try:
-                with open(file,"w",encoding="utf-8") as filee:
+                with open(file,"w",encoding="utf-8",errors="ignore") as filee:
                     filee.write(Api.Get())
             except Exception as e:
                 print(e)
