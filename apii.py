@@ -1504,7 +1504,7 @@ def Attach():
         return "inject script not found"
     players = game.FindFirstChildOfClass("Players")
     localplayer = players.GetChildren()[0]
-    character = Instance(synapse.memory.read_longlong(localplayer.addr+offsets["character"]))
+    character = game.Workspace.FindFirstChild(localplayer.Name)
     #displayname = synapse.readRobloxString(localplayer.addr+offsets["displayname"])
     localscript = None
     for v in character.GetChildren():
