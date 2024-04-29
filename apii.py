@@ -1,5 +1,5 @@
 from __future__ import annotations
-import os,pymem,ctypes,httpx,re,pygetwindow as gw,time,win32api,threading,lupa,pyperclip,requests,pyautogui,json,shutil,glob,string,random,winsound
+import os,pymem,ctypes,httpx,re,pygetwindow as gw,time,win32api,threading,lupa,pyperclip,requests,pyautogui,shutil,glob,string,random,winsound
 #import pymem,ctypes,time,re,httpx,os,pygetwindow as gw
 from datetime import datetime
 import tkinter.scrolledtext as scrolledtext
@@ -1247,14 +1247,7 @@ def GetStringValueValue(okok):
         length = synapse.memory.read_longlong(okok.self + 0xD0)
         raw = synapse.readRobloxString(stringAddress, length)
     return raw
-def WriteStringValueValue(okok,newStrings):
-    newString = json.dumps({
-        "request": {
-            "string": newStrings
-        }
-    })
-    truepayloade = json.loads(newString)
-    newString = json.dumps(truepayloade)
+def WriteStringValueValue(okok,newString):
     newStringPtr = synapse.memory.allocate(len(newString))
     synapse.memory.write_string(newStringPtr, newString)
     synapse.memory.write_bytes(okok.self + 0xD0, bytes.fromhex(synapse.hex2le(synapse.d2h(len(newString)))), 8)
@@ -1437,22 +1430,6 @@ end)
 updatefiles()
 getgenv().isrbxactive = newcclosure(function()
 	return {is_window_active()}
-end)
-getgenv().fireclickdetector = newcclosure(function(cdd,dist)
-    if not type(cdd) == Instance then
-        error("Instance expected")
-    end
-    if not cdd.ClassName == "ClickDetector" then
-    error("ClickDetector expected")
-    end
-    local Dist = 0.0
-    if dist then
-        Dist = tonumber(dist)
-    end
-    error("firecd not out yet")
-   -- local FnFire = syn.RobloxBase(OBFUSCATED_NUM_UNCACHE(syn.Offsets.ClickDetector.FireClick))
-
- --   FnFire(CDetector, Dist, Plr)
 end)
 getgenv().cwd = [==============[{cwd}]==============]
 getgenv().currentdir = getgenv().cwd
