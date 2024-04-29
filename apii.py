@@ -1,5 +1,5 @@
 from __future__ import annotations
-import os,pymem,ctypes,httpx,re,pygetwindow as gw,time,win32api,threading,lupa,pyperclip,requests,pyautogui,shutil,glob,string,random,winsound
+import os,pymem,ctypes,httpx,re,pygetwindow as gw,time,win32api,threading,pyperclip,json,requests,pyautogui,shutil,glob,string,random,winsound
 #import pymem,ctypes,time,re,httpx,os,pygetwindow as gw
 from datetime import datetime
 import tkinter.scrolledtext as scrolledtext
@@ -1015,16 +1015,6 @@ def playSound(soundname):
     pygame.mixer.music.play()
 def currenttime():
     return datetime.now().strftime('%H:%M:%S')
-lua = lupa.LuaRuntime(unpack_returned_tuples=True)
-def checksyntax(code):
-    try:
-        lua.execute(code)
-    except lupa.LuaSyntaxError as e:
-        c = str(e).replace("error loading code: ","")
-        return c
-    except Exception as e:
-        print(e)
-        pass
 CodeBox = None
 green = Fore.GREEN
 red = Fore.RED
@@ -1247,7 +1237,14 @@ def GetStringValueValue(okok):
         length = synapse.memory.read_longlong(okok.self + 0xD0)
         raw = synapse.readRobloxString(stringAddress, length)
     return raw
-def WriteStringValueValue(okok,newString):
+def WriteStringValueValue(okok,newStrings):
+    newString = json.dumps({
+        "request": {
+            "string": newStrings
+        }
+    })
+    truepayloade = json.loads(newString)
+    newString = json.dumps(truepayloade)
     newStringPtr = synapse.memory.allocate(len(newString))
     synapse.memory.write_string(newStringPtr, newString)
     synapse.memory.write_bytes(okok.self + 0xD0, bytes.fromhex(synapse.hex2le(synapse.d2h(len(newString)))), 8)
@@ -1572,19 +1569,12 @@ class Api:
             os.system("""taskkill /im "Windows10Universal.exe" /F >NUL 2>&1""")
             msgbox("Process terminated.")
     def Execute(code):
-        syntax = checksyntax(code)
-        if isinstance(syntax,str):
-            setoutput(syntax)
-            return
         if Attached:
             EXE(code,localplayer)
         else:
             return "not attached"
     def ExecuteText():
         if Attached:
-       #     syntax = checksyntax(Api.Get())
-            #if isinstance(syntax,str):
-            #    return syntax
             e = threading.Thread(target=EXE,args=(Api.Get(),localplayer),daemon=True)
             e.start()
         else:
