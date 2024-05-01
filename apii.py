@@ -1448,14 +1448,15 @@ end)
     if game.Workspace.filestarted == None:
         code = code + startAll()
     WriteStringValueValue(executeValue,code + f"  ransssdomssasdajhleloeoworld = [==============[{randomstring(5)}]==============]")
-
+eapic  = ""
 def Attach():
-    global game,players,localplayer,Attached
+    global game,players,localplayer,Attached,eapic
    # threading.Thread(target=AutoRun,daemon=True).start()
     ok = ConfigureAll()
     if ok == "notfound":
         Attached = False
-        return "roblox not found"
+        eapic = "roblox not found"
+        return
     InjectScript = 0
     try:
         if Suspend == True:
@@ -1467,15 +1468,18 @@ def Attach():
         return f"error getting datamodel {str(e)}"
     if game == 0:
         Attached = False
-        return "failed to find game"
+        eapic = "failed to find game"
+        return
     try:
         InjectScript = returnInjectScript()
     except Exception as e:
         Attached = False
-        return f"error getting inject script {str(e)}"
+        eapic = f"error getting inject script {str(e)}"
+        return
     if InjectScript == 0:
         Attached = False
-        return "inject script not found"
+        eapic = "inject script not found"
+        return
     players = game.FindFirstChildOfClass("Players")
     localplayer = players.GetChildren()[0]
     character = game.Workspace.FindFirstChild(localplayer.Name)
@@ -1487,12 +1491,13 @@ def Attach():
             break
     if localscript == None:
         Attached = False
-        return "no localscript to attach in"
+        eapic = "no localscript to attach in"
+        return
     b = synapse.rb(InjectScript.addr + 0x100, 0x150)
     synapse.wb(localscript.addr + 0x100, b, len(b))
     localscript.setParent(localplayer.FindFirstChildOfClass("PlayerScripts"))
     Attached = True
-    return True
+    eapic = True
 def ask(s,b):
     winsound.PlaySound("SystemQuestion", winsound.SND_ALIAS | winsound.SND_ASYNC)
     result = messagebox.askquestion(s,b)
@@ -1504,7 +1509,7 @@ def errorbox(b):
 def warnbox(b):
     win32api.MessageBox(0,b," ",0x30)
 def msgbox(b):
-    win32api.MessageBox(0, b, " ", 0x40)
+    win32api.MessageBox(0, b, " ", 0)
 Output = None
 def setoutput(b):
     Output.config(state="normal")
@@ -1514,7 +1519,9 @@ def setoutput(b):
     Output.config(state="disabled")
 class Api:
     def Attach():
-        return Attach()
+        threading.Thread(target=Attach,daemon=True).start()
+        print(eapic)
+        return eapic
     def WordWrap():
         current_wrap = CodeBox.cget("wrap")
         new_wrap = ""
